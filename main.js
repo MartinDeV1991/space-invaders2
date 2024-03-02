@@ -33,15 +33,8 @@ class Game {
         this.sound = new AudioControl();
 
         this.keys = [];
-        this.mouse = {
-            x: undefined,
-            y: undefined,
-            width: 1,
-            height: 1,
-            pressed: false,
-            fired: false
-        }
 
+        this.touchX;
         this.resize(window.innerWidth, window.innerHeight);
         this.resetButton = document.getElementById('resetButton');
         this.resetButton.addEventListener('click', e => {
@@ -55,48 +48,15 @@ class Game {
         window.addEventListener('resize', e => {
             this.resize(e.target.innerWidth, e.target.innerHeight);
         });
-        window.addEventListener('mousedown', e => {
-            this.mouse.x = e.x;
-            this.mouse.y = e.y;
-            this.mouse.pressed = true;
-            this.mouse.fired = false;
-        });
-        window.addEventListener('mouseup', e => {
-            this.mouse.x = e.x;
-            this.mouse.y = e.y;
-            this.mouse.pressed = false;
-        });
         window.addEventListener('touchstart', e => {
+            this.touchX = Math.floor(e.changedTouches[0].pageX);
             this.player.shoot();
         });
         window.addEventListener('touchend', e => {
             this.keys = [];
         });
-
         window.addEventListener('touchmove', e => {
-            const touchX = e.changedTouches[0].pageX;
-            const playerCenterX = this.player.x + this.player.width / 2;
-            const stopThreshold = 10;
-
-            if (touchX > playerCenterX) {
-                this.keys.push('ArrowRight');
-                const index = this.keys.indexOf('ArrowLeft');
-                if (index > -1) this.keys.splice(index, 1);
-
-                const stopPosition = touchX - this.player.width / 2 - stopThreshold;
-                if (this.player.x >= stopPosition) {
-                    this.keys.splice(this.keys.indexOf('ArrowRight'), 1);
-                }
-            } else if (touchX < playerCenterX) {
-                this.keys.push('ArrowLeft');
-                const index = this.keys.indexOf('ArrowRight');
-                if (index > -1) this.keys.splice(index, 1);
-
-                const stopPosition = touchX + this.player.width / 2 + stopThreshold;
-                if (this.player.x <= stopPosition) {
-                    this.keys.splice(this.keys.indexOf('ArrowLeft'), 1);
-                }
-            }
+            this.touchX = Math.floor(e.changedTouches[0].pageX);
         });
 
         window.addEventListener('keyup', e => {

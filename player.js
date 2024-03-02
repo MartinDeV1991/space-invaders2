@@ -19,10 +19,11 @@ class Player {
     }
 
     update() {
-        if (this.game.keys.indexOf('ArrowLeft') > -1) {
+        const playerCenterX = this.x + this.width / 2;
+        if (this.game.keys.indexOf('ArrowLeft') > -1 || this.game.touchX < playerCenterX - 5) {
             this.x -= this.speed;
             this.jetsFrame = 0;
-        } else if (this.game.keys.indexOf('ArrowRight') > -1) {
+        } else if (this.game.keys.indexOf('ArrowRight') > -1 || this.game.touchX > playerCenterX + 5) {
             this.x += this.speed;
             this.jetsFrame = 2;
         } else {
