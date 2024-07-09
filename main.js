@@ -19,9 +19,10 @@ class Game {
         this.score = 0;
         this.lives;
         this.winningScore = 50;
-        this.message1 = 'Run!';
+        this.message1 = 'Destroy the bugs!';
         this.message2 = 'Or get eaten!';
         this.message3 = 'Press "ENTER" or "R" to start!';
+        this.message4 = 'Move your spaceship using the arrow keys and shoot using the spacebar!';
         this.gameOver = true;
         this.crewImage = document.getElementById('crewSprite');
         this.debug = false;
@@ -62,11 +63,11 @@ class Game {
         window.addEventListener('keyup', e => {
             if (e.key === 'Enter' || e.key.toLowerCase() === 'r') {
                 this.start();
-            } else if (e.key === ' ' || e.key.toLowerCase() === 'f') {
+            } else if (e.key.toLowerCase() === 'f') {
                 this.toggleFullScreen();
             } else if (e.key.toLowerCase() === 'd') {
                 this.debug = !this.debug;
-            } else if (e.key === '1') this.player.shoot();
+            } else if (e.key === ' ') this.player.shoot();
         });
 
         window.addEventListener('keydown', e => {
@@ -206,6 +207,7 @@ class Game {
             this.ctx.font = '20px Bangers';
             this.ctx.fillText(this.message2, this.width * 0.5, this.height * 0.5 + 25);
             this.ctx.fillText(this.message3, this.width * 0.5, this.height * 0.5 + 50);
+            this.ctx.fillText(this.message4, this.width * 0.5, this.height * 0.5 + 75);
         }
         this.ctx.restore();
     }
